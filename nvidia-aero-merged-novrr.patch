@@ -1,0 +1,27 @@
+--- a/src/nvidia-modeset/src/nvkms-flip.c
++++ b/src/nvidia-modeset/src/nvkms-flip.c
+@@ -583,11 +583,23 @@
+ 
+         const NvBool allowVrrHead = pFlipHead[i].flip.allowVrr;
+         const NvBool dirtyMainLayer = nvIsLayerDirty(&pFlipHead[i].flip, NVKMS_MAIN_LAYER);
+-        const NvBool allowVrr = pDevEvo->vrr.enabled && allowVrrHead;
+ 
+         const NVDispEvoPtr pDispEvo = pDevEvo->pDispEvo[sd];
+         const NVDispApiHeadStateEvoRec *pApiHeadState = &pDispEvo->apiHeadState[apiHead];
+ 
++        /*
++         * Don't use VRR flips on a non-VRR display driven by merged heads
++         * (2Heads1OR, e.g. the Varjo Aero). With VRR enabled on the device,
++         * nvApplyVrrBaseFlipOverrides() turns flips on non-VRR heads into
++         * tearing flips and relies on RM to hold them until vblank; merged
++         * non-VRR heads are set up without a stall lock pin and the frame is
++         * swapped mid-scanout (a tear line at the client's present time).
++         */
++        const NvBool mergedNonVrr =
++            (nvPopCount32(pApiHeadState->hwHeadsMask) > 1) &&
++            (pApiHeadState->timings.vrr.type == NVKMS_DPY_VRR_TYPE_NONE);
++        const NvBool allowVrr = pDevEvo->vrr.enabled && allowVrrHead && !mergedNonVrr;
++
+ 
+         if (!nvApiHeadIsActive(pDispEvo, apiHead)) {
+             goto done;

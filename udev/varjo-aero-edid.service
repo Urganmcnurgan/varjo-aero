@@ -1,0 +1,6 @@
+[Unit]
+Description=Varjo Aero: VR EDID override on the headset's connector
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/varjo-aero/aero-edid-override.sh

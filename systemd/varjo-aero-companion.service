@@ -1,0 +1,11 @@
+[Unit]
+Description=Varjo Aero companion: lenses, fans, backlight, eye tracker, audio while Monado runs
+Documentation=file://@TOOLS@/README.md
+
+[Service]
+ExecStart=/usr/bin/python3 -u @TOOLS@/aero_companion.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=default.target

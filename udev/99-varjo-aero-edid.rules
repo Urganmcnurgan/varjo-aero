@@ -1,0 +1,3 @@
+# Varjo Aero: on every DRM hotplug (and when the card appears at boot) check the connectors for the headset and give
+# it the VR EDID (aero-edid-override.sh via varjo-aero-edid.service; udev RUN is too restricted for debugfs writes).
+SUBSYSTEM=="drm", KERNEL=="card[0-9]*", ACTION=="add|change", RUN+="/usr/bin/systemctl start --no-block varjo-aero-edid.service"
