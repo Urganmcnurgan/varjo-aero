@@ -21,7 +21,8 @@ The Aero is no longer supported by its maker. This project keeps it useful.
   headset while VR runs.
 - **Controllers**: Valve Index controllers and base stations (lighthouse); they switch off a few minutes after VR stops.
 - **Desktop in VR**: WayVR (formerly WlxOverlay-S) starts with every session if installed.
-- **Games tested**: Beat Saber, Red Matter 2, Half-Life: Alyx, Assetto Corsa Competizione; Blender VR.
+- **Games tested**: Beat Saber, Red Matter 2, Half-Life: Alyx, Assetto Corsa Competizione, Microsoft Flight
+  Simulator 2024; Blender VR.
 
 ## Requirements
 
@@ -87,6 +88,19 @@ at the next VR start unless noted:
 - **Red Matter 2**: launch option `%command% -hmd=OpenXR` (the controller fix is applied automatically).
 - **Half-Life: Alyx**: turn on *Foveated Rendering* in the game's Advanced Performance settings to get
   eye-tracked foveation (it comes from the xrizer that Envision builds for this profile).
+- **Microsoft Flight Simulator 2024** (Steam): eye-tracked foveated rendering works.
+  - Use **GE-Proton** (tested: GE-Proton11-12; install with ProtonUp-Qt or protonup) and launch option
+    `PROTON_ENABLE_WAYLAND=1 AERO_SRGB_FIX=0 %command%`. Under Proton Experimental the mouse barely moves in VR
+    (Proton Experimental has no Wayland mode; `PROTON_ENABLE_WAYLAND=1` does nothing there) and the picture is
+    less stable. `AERO_SRGB_FIX=0`: the automatic colour fix for Proton games makes MSFS too dark; if the cockpit
+    then looks washed out, lower the game's own VR darkening option.
+  - In the game's VR graphics: **Dynamic settings off** (it makes the game rebuild its VR images constantly, which
+    shows as flicker), foveated rendering on, reprojection off (it can crash the game, and Monado does not use it).
+    Quality VeryHigh with DLSS Quality is about the sharpness of the same settings under Varjo Base.
+  - Honeycomb Alpha / Bravo: the Bravo throttle needs `PROTON_ENABLE_HIDRAW=0x294b/0x1901` added to the launch
+    options and a udev rule giving you access to it:
+    `echo 'SUBSYSTEM=="hidraw", ATTRS{idVendor}=="294b", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/70-honeycomb.rules`,
+    then replug it.
 
 ## Known issues
 
