@@ -1,13 +1,10 @@
 --- a/src/nvidia-modeset/src/nvkms-flip.c
 +++ b/src/nvidia-modeset/src/nvkms-flip.c
-@@ -583,11 +583,23 @@
- 
-         const NvBool allowVrrHead = pFlipHead[i].flip.allowVrr;
+@@ -596,3 +596,2 @@
          const NvBool dirtyMainLayer = nvIsLayerDirty(&pFlipHead[i].flip, NVKMS_MAIN_LAYER);
 -        const NvBool allowVrr = pDevEvo->vrr.enabled && allowVrrHead;
  
-         const NVDispEvoPtr pDispEvo = pDevEvo->pDispEvo[sd];
-         const NVDispApiHeadStateEvoRec *pApiHeadState = &pDispEvo->apiHeadState[apiHead];
+@@ -601,2 +600,15 @@
  
 +        /*
 +         * Don't use VRR flips on a non-VRR display driven by merged heads
@@ -22,6 +19,4 @@
 +            (pApiHeadState->timings.vrr.type == NVKMS_DPY_VRR_TYPE_NONE);
 +        const NvBool allowVrr = pDevEvo->vrr.enabled && allowVrrHead && !mergedNonVrr;
 +
- 
          if (!nvApiHeadIsActive(pDispEvo, apiHead)) {
-             goto done;

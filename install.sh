@@ -119,7 +119,7 @@ if [ "$USER_ONLY" = 0 ]; then
       MISSING=1
     else
       need=()
-      grep -q mergeHeadSection "$src/src/nvidia-modeset/src/nvkms-evo.c" 2>/dev/null &&
+      grep -q "pViewPort->in.width \* pHeadState->mergeHeadSection" "$src/src/nvidia-modeset/src/nvkms-evo.c" 2>/dev/null &&
         ok "2Heads1OR viewport fix (PR #1262)" || need+=(nvidia-pr1262-2heads1or-viewport.patch)
       grep -q mergedNonVrr "$src/src/nvidia-modeset/src/nvkms-flip.c" 2>/dev/null &&
         ok "merged-heads VRR tear fix" || need+=(nvidia-aero-merged-novrr.patch)

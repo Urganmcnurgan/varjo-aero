@@ -114,7 +114,7 @@ at the next VR start unless noted:
 
 ## Tested on
 
-ArcoLinux (Arch-based), Hyprland 0.56, NVIDIA RTX 3090 with the open modules 615.78 (patched), Envision 3.2,
+ArcoLinux (Arch-based), Hyprland 0.56, NVIDIA RTX 3090 with the open modules 615.78 and 620.70 (patched; kernel 7.2 and 7.3), Envision 3.2,
 Valve Index controllers and base stations.
 
 ## How it fits together
